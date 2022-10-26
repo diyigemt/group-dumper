@@ -9,6 +9,7 @@ import net.mamoe.mirai.event.GlobalEventChannel
 import net.mamoe.mirai.event.events.FriendMessageEvent
 import net.mamoe.mirai.event.events.GroupMessageEvent
 import net.mamoe.mirai.event.events.GroupTempMessageEvent
+import net.mamoe.mirai.event.globalEventChannel
 import java.io.File
 import java.io.FileWriter
 
@@ -35,7 +36,8 @@ object GroupDumper : KotlinPlugin(
       logger.error("请先配置后再使用")
       return
     }
-    GlobalEventChannel.filter {
+    val pluginEventChannel = globalEventChannel()
+    pluginEventChannel.filter {
       it is GroupMessageEvent && it.sender.id == MainConfig.manager
     }.subscribeAlways<GroupMessageEvent> {
       if (it.message.serializeToMiraiCode().startsWith(MainConfig.command)) {
@@ -43,7 +45,7 @@ object GroupDumper : KotlinPlugin(
         it.subject.sendMessage("群(${it.group.id})转储成功")
       }
     }
-    GlobalEventChannel.filter {
+    pluginEventChannel.filter {
       it is FriendMessageEvent && it.sender.id == MainConfig.manager
     }.subscribeAlways<FriendMessageEvent> {
       val msg = it.message.serializeToMiraiCode()
@@ -57,7 +59,7 @@ object GroupDumper : KotlinPlugin(
         }
       }
     }
-    GlobalEventChannel.filter {
+    pluginEventChannel.filter {
       it is GroupTempMessageEvent && it.sender.id == MainConfig.manager
     }.subscribeAlways<GroupTempMessageEvent> {
       if (it.message.serializeToMiraiCode().startsWith(MainConfig.command)) {

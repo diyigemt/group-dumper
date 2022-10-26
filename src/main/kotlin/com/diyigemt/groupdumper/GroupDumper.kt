@@ -14,13 +14,7 @@ import java.io.File
 import java.io.FileWriter
 
 object GroupDumper : KotlinPlugin(
-  JvmPluginDescription(
-    id = "com.diyigemt.groupdunmper",
-    name = "Group Dumper",
-    version = "1.0.0",
-  ) {
-    JvmPluginDescription.loadFromResource()
-  }
+  JvmPluginDescription.loadFromResource()
 ) {
 
   private val idMatcher = Regex("^\\d+$")

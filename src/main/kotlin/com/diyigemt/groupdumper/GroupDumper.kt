@@ -40,7 +40,7 @@ object GroupDumper : KotlinPlugin(
     }.subscribeAlways<GroupMessageEvent> {
       if (it.message.serializeToMiraiCode().startsWith(MainConfig.command)) {
         doDump(it.subject, it.group.id)
-        it.subject.sendMessage("群${it.group.id}转储成功")
+        it.subject.sendMessage("群(${it.group.id})转储成功")
       }
     }
     GlobalEventChannel.filter {
@@ -51,7 +51,7 @@ object GroupDumper : KotlinPlugin(
         val id = msg.replace(MainConfig.command, "").trim()
         if (idMatcher.matches(id)) {
           doDump(it.subject, id.toLong())
-          it.subject.sendMessage("群${id}转储成功")
+          it.subject.sendMessage("群(${id})转储成功")
         } else {
           sender.sendMessage("群id格式不正确")
         }
@@ -62,7 +62,7 @@ object GroupDumper : KotlinPlugin(
     }.subscribeAlways<GroupTempMessageEvent> {
       if (it.message.serializeToMiraiCode().startsWith(MainConfig.command)) {
         doDump(it.subject, it.group.id)
-        it.subject.sendMessage("群${it.group.id}转储成功")
+        it.subject.sendMessage("群(${it.group.id})转储成功")
       }
     }
   }
@@ -99,7 +99,7 @@ object GroupDumper : KotlinPlugin(
   private fun parseTemplate(id: Long, nick: String, name: String, memberPermission: MemberPermission): String {
     val permit = when(memberPermission) {
       MemberPermission.OWNER -> "群主"
-      MemberPermission.MEMBER -> "群友"
+      MemberPermission.MEMBER -> "群员"
       MemberPermission.ADMINISTRATOR -> "管理"
     }
     return MainConfig.template

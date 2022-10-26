@@ -16,5 +16,5 @@ object MainConfig: AutoSavePluginConfig("main") {
   val command: String by value("dump group")
 
   @ValueDescription("启动指令")
-  val template: String by value("\$nick(\$qq) \$permit")
+  val template: String by value("\$permit \$qq \$nick")
 }
